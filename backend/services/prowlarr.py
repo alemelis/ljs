@@ -24,7 +24,7 @@ class ProwlarrClient:
         try:
             r = await self._client.get(
                 f"{self._url}/api/v1/search",
-                params={"query": query, "type": "search", "indexerIds": -2, "limit": 100},
+                params={"query": query, "type": "search", "indexerIds": -2, "limit": 20},
             )
             r.raise_for_status()
         except httpx.HTTPStatusError as e:
