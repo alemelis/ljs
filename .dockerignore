@@ -1,0 +1,8 @@
+downloads/
+prowlarr-config/
+.venv/
+.env
+rclone.conf
+__pycache__/
+*.pyc
+.git/

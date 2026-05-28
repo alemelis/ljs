@@ -1,0 +1,13 @@
+.env
+rclone.conf
+downloads/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+prowlarr-config/
+*.egg-info/
+dist/
+build/

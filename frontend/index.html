@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏴‍☠️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>🏴‍☠️</h1>
+      <nav>
+        <a href="#search" class="nav-link active" data-view="search">Search</a>
+        <a href="#dashboard" class="nav-link" data-view="dashboard">Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <main>
+    <!-- Search View -->
+    <section id="view-search" class="view">
+      <div class="search-box">
+        <input id="search-input" type="text" placeholder="Search torrents…" autocomplete="off">
+        <button id="search-btn">Search</button>
+      </div>
+      <div id="search-status" class="status-text"></div>
+      <div id="search-results" class="table-wrap hidden">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Size</th>
+              <th>Seeds</th>
+              <th>Peers</th>
+              <th>Indexer</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Dashboard View -->
+    <section id="view-dashboard" class="view hidden">
+      <div class="dashboard-header">
+        <h2>Active Torrents</h2>
+        <button id="refresh-btn" class="btn-secondary">↻ Refresh</button>
+      </div>
+      <div id="dashboard-status" class="status-text"></div>
+      <div id="torrents-wrap" class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Size</th>
+              <th>Progress</th>
+              <th>Speed ↓</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="torrents-body"></tbody>
+        </table>
+      </div>
+
+      <details id="sync-panel">
+        <summary>Sync Jobs</summary>
+        <div id="sync-status" class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Torrent</th>
+                <th>Status</th>
+                <th>Started</th>
+                <th>Finished</th>
+                <th>Error</th>
+              </tr>
+            </thead>
+            <tbody id="sync-body"></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

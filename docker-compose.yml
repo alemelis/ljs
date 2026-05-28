@@ -1,0 +1,25 @@
+services:
+    ljs:
+        build: .
+        ports:
+            - "8100:8000"
+        env_file: .env
+        volumes:
+            - ./downloads:/app/downloads
+            - ./rclone.conf:/app/rclone.conf:ro
+            - ./frontend:/app/frontend:ro
+        depends_on:
+            - prowlarr
+        restart: unless-stopped
+
+    prowlarr:
+        image: lscr.io/linuxserver/prowlarr:latest
+        ports:
+            - "9696:9696"
+        volumes:
+            - ./prowlarr-config:/config
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/London
+        restart: unless-stopped

@@ -1,0 +1,7 @@
+[torbox]
+type = webdav
+url = https://webdav.torbox.app
+vendor = other
+user = your-email@example.com
+pass = your-rclone-obscured-password
+# Generate obscured password with: rclone obscure your-password
