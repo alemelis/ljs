@@ -4,6 +4,18 @@ from fastapi import HTTPException
 from backend.config import Settings
 
 
+def _classify(categories: list[dict]) -> str:
+    for c in categories:
+        cid = c.get("id") or 0
+        if 2000 <= cid <= 2999:
+            return "movie"
+    for c in categories:
+        cid = c.get("id") or 0
+        if 5000 <= cid <= 5999:
+            return "tv"
+    return "other"
+
+
 def _human_size(size_bytes: int) -> str:
     for unit in ("B", "KB", "MB", "GB", "TB"):
         if size_bytes < 1024:
@@ -48,6 +60,7 @@ class ProwlarrClient:
             else:
                 magnet_url = None  # will fall back to torrent file upload
 
+            raw_cats = item.get("categories") or []
             results.append({
                 "title": title,
                 "size": size,
@@ -57,7 +70,8 @@ class ProwlarrClient:
                 "magnet_url": magnet_url,
                 "download_url": download_url,
                 "indexer": item.get("indexer", ""),
-                "categories": [c.get("name", "") for c in (item.get("categories") or [])],
+                "categories": [c.get("name", "") for c in raw_cats],
+                "media_type": _classify(raw_cats),
             })
         return results
 

@@ -31,7 +31,15 @@ class RcloneManager:
         self._remote = settings.rclone_remote_name
         self._config = settings.rclone_config_path
         self._local_storage = settings.local_storage_path
+        self._movies_path = settings.movies_path
+        self._tv_path = settings.tv_path
+        self._other_path = settings.other_path
         self._jobs: dict[int, SyncJob] = {}
+        self._media_types: dict[int, str] = {}
+
+    def set_media_type(self, torrent_id: int, media_type: Optional[str]) -> None:
+        if media_type:
+            self._media_types[torrent_id] = media_type
 
     async def _find_remote_dir(self, torrent_name: str) -> str:
         """List WebDAV root and find the directory matching torrent_name."""
@@ -74,7 +82,9 @@ class RcloneManager:
 
         remote_dir = await self._find_remote_dir(torrent_name)
         remote_path = f"{self._remote}:{remote_dir}"
-        local_path = f"{self._local_storage}/{torrent_name}"
+        media_type = self._media_types.get(torrent_id, "other")
+        base = {"movie": self._movies_path, "tv": self._tv_path}.get(media_type, self._other_path)
+        local_path = f"{base}/{torrent_name}"
 
         try:
             proc = await asyncio.create_subprocess_exec(

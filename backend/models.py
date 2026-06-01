@@ -6,6 +6,7 @@ class AddTorrentRequest(BaseModel):
     magnet: Optional[str] = None
     download_url: Optional[str] = None
     title: Optional[str] = None
+    media_type: Optional[str] = None
 
 
 class SearchResult(BaseModel):
@@ -18,6 +19,7 @@ class SearchResult(BaseModel):
     download_url: Optional[str] = None
     indexer: str
     categories: list[str] = []
+    media_type: str = "other"
 
 
 class TorrentFile(BaseModel):

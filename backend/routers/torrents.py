@@ -26,13 +26,20 @@ async def list_torrents(request: Request):
 @router.post("/torrents")
 async def add_torrent(request: Request, body: AddTorrentRequest):
     torbox = request.app.state.torbox
+    rclone = request.app.state.rclone
     if body.magnet:
-        return await torbox.add_torrent(body.magnet)
-    if body.download_url:
+        resp = await torbox.add_torrent(body.magnet)
+    elif body.download_url:
         filename = (body.title or "download") + ".torrent"
-        return await torbox.add_torrent_file(body.download_url, filename)
-    from fastapi import HTTPException
-    raise HTTPException(400, detail="Either magnet or download_url is required")
+        resp = await torbox.add_torrent_file(body.download_url, filename)
+    else:
+        from fastapi import HTTPException
+        raise HTTPException(400, detail="Either magnet or download_url is required")
+    if body.media_type:
+        tid = (resp.get("data") or {}).get("torrent_id")
+        if tid:
+            rclone.set_media_type(tid, body.media_type)
+    return resp
 
 
 @router.delete("/torrents/{torrent_id}")

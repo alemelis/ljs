@@ -170,7 +170,20 @@ tr:hover td { background: #161613; }
 .badge-unknown { color: #444; }
 
 /* Actions */
-.actions { display: flex; gap: 6px; }
+.actions { display: flex; gap: 6px; align-items: center; }
+
+/* Media type selector */
+.media-select {
+  background: #1a1a17;
+  color: #888;
+  border: 1px solid #444;
+  padding: 2px 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  cursor: pointer;
+  outline: none;
+}
+.media-select:focus { border-color: #888; }
 
 /* Dashboard header */
 .dashboard-header { display: flex; align-items: baseline; justify-content: space-between; }

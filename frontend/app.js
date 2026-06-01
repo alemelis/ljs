@@ -111,8 +111,9 @@ function renderResults(results) {
   const tbody = document.getElementById('results-body');
   if (!results.length) { tbody.innerHTML = ''; return; }
 
-  tbody.innerHTML = results.map(r => {
+  tbody.innerHTML = results.map((r, i) => {
     const canAdd = !!(r.magnet_url || r.download_url);
+    const mt = r.media_type || 'other';
     return `<tr>
       <td class="title-cell" title="${esc(r.title)}">${esc(r.title)}</td>
       <td class="mono">${esc(r.size_human)}</td>
@@ -120,20 +121,28 @@ function renderResults(results) {
       <td class="mono">${r.leechers}</td>
       <td class="mono">${esc(r.indexer)}</td>
       <td>
-        <button class="btn-small ${canAdd ? '' : 'btn-secondary'}"
-          onclick="addTorrent(${esc(JSON.stringify(r.magnet_url||null))}, ${esc(JSON.stringify(r.download_url||null))}, ${esc(JSON.stringify(r.title))})"
-          ${canAdd ? '' : 'disabled'}>
-          ${canAdd ? 'Add' : 'No link'}
-        </button>
+        <div class="actions">
+          <select id="mt-${i}" class="media-select">
+            <option value="movie"${mt === 'movie' ? ' selected' : ''}>Movie</option>
+            <option value="tv"${mt === 'tv' ? ' selected' : ''}>TV</option>
+            <option value="other"${mt === 'other' ? ' selected' : ''}>Other</option>
+          </select>
+          <button class="btn-small ${canAdd ? '' : 'btn-secondary'}"
+            onclick="addTorrent(${esc(JSON.stringify(r.magnet_url||null))}, ${esc(JSON.stringify(r.download_url||null))}, ${esc(JSON.stringify(r.title))}, document.getElementById('mt-${i}').value)"
+            ${canAdd ? '' : 'disabled'}>
+            ${canAdd ? 'Add' : 'No link'}
+          </button>
+        </div>
       </td>
     </tr>`;
   }).join('');
 }
 
 // --- Torrents ---
-async function addTorrent(magnet, downloadUrl, title) {
+async function addTorrent(magnet, downloadUrl, title, mediaType) {
   try {
     const body = magnet ? { magnet } : { download_url: downloadUrl, title };
+    if (mediaType) body.media_type = mediaType;
     await api('POST', '/torrents', body);
     toast('Torrent added — switching to dashboard', 'success');
     showView('dashboard');
