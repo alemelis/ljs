@@ -6,10 +6,9 @@ services:
         env_file: .env
         volumes:
             - ./downloads:/app/downloads
-            # If MOVIES_PATH / TV_PATH / OTHER_PATH point outside ./downloads,
-            # add the corresponding host mounts here, e.g.:
-            #   - /media/movies:/media/movies
-            #   - /media/tv:/media/tv
+            # Mount separate host folders for MOVIES_PATH and TV_PATH, e.g.:
+            #   - /media/movies:/app/movies
+            #   - /media/tv:/app/tv
             - ./rclone.conf:/app/rclone.conf:ro
             - ./frontend:/app/frontend:ro
         depends_on:

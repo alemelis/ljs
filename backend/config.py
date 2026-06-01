@@ -13,8 +13,8 @@ class Settings(BaseSettings):
     rclone_remote_name: str = "torbox"
     rclone_config_path: str = "./rclone.conf"
     local_storage_path: str = "./downloads"
-    movies_path: str = "./downloads/movies"
-    tv_path: str = "./downloads/tv"
+    movies_path: str = "/app/movies"
+    tv_path: str = "/app/tv"
     other_path: str = "./downloads"
 
     auto_sync: bool = False
